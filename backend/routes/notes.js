@@ -12,7 +12,7 @@ const upload = multer({ storage });
 router.post('/upload', authMiddleware, upload.single('file'), async (req, res) => {
   try {
     const { department, semester, subject, tag } = req.body;
-    
+
     if (!req.file) {
       return res.status(400).json({ error: 'File is required' });
     }
@@ -41,8 +41,8 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req, res) =
     await note.save();
     console.log("✅ Note saved with file data:", note._id);
 
-    res.status(200).json({ 
-      message: 'Upload successful', 
+    res.status(200).json({
+      message: 'Upload successful',
       note: {
         _id: note._id,
         filename: note.filename,
@@ -71,7 +71,11 @@ router.get('/', authMiddleware, async (req, res) => {
 // -------------------- Get notes by subject --------------------
 router.get('/subject/:subject', authMiddleware, async (req, res) => {
   try {
-    const notes = await Note.find({ subject: req.params.subject }).sort({ createdAt: -1 });
+    const notes = await Note.find({
+      subject: req.params.subject
+    })
+      .populate("uploadedBy", "name")
+      .sort({ createdAt: -1 });
     res.status(200).json(notes);
   } catch (err) {
     console.error('Fetch notes by subject error:', err);
@@ -83,7 +87,7 @@ router.get('/subject/:subject', authMiddleware, async (req, res) => {
 router.get('/file/:id', authMiddleware, async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
-    
+
     if (!note || !note.fileData || !note.fileData.data) {
       return res.status(404).json({ error: 'File not found' });
     }
@@ -108,7 +112,7 @@ router.get('/file/:id', authMiddleware, async (req, res) => {
 router.get('/public/file/:id', async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
-    
+
     if (!note || !note.fileData || !note.fileData.data) {
       return res.status(404).json({ error: 'File not found' });
     }
@@ -134,7 +138,7 @@ router.get('/public/file/:id', async (req, res) => {
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
-    
+
     if (!note) {
       return res.status(404).json({ error: 'Note not found' });
     }
@@ -149,8 +153,8 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
     if (note.uploadedBy.toString() !== req.user.id.toString()) {
       console.log("❌ Unauthorized delete attempt");
-      return res.status(403).json({ 
-        error: 'Not authorized to delete this note. You can only delete your own uploads.' 
+      return res.status(403).json({
+        error: 'Not authorized to delete this note. You can only delete your own uploads.'
       });
     }
 
@@ -158,7 +162,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
     // Delete the note (file data is automatically deleted with the note)
     await Note.findByIdAndDelete(req.params.id);
-    
+
     console.log("✅ Note deleted successfully");
     res.json({ message: 'Note deleted successfully' });
 
@@ -173,7 +177,7 @@ router.get('/debug/storage-info', async (req, res) => {
   try {
     const notes = await Note.find().select('filename fileSize createdAt');
     const totalSize = notes.reduce((sum, note) => sum + (note.fileSize || 0), 0);
-    
+
     res.json({
       totalNotes: notes.length,
       totalStorage: `${(totalSize / (1024 * 1024)).toFixed(2)} MB`,

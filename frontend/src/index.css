@@ -1,111 +1,106 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-void-900 text-slate-200 font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(0, 212, 230, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.03) 0%, transparent 60%);
+    min-height: 100vh;
+  }
+
+  input,
+  select,
+  textarea {
+    @apply bg-void-700 border border-slate-700 text-slate-200 rounded-lg px-4 py-2.5 w-full placeholder-slate-500 outline-none transition-all duration-200 focus:border-cyber-500 focus:ring-1 focus:ring-cyber-500/40;
+  }
+
+  select option {
+    @apply bg-void-700 text-slate-200;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+@layer components {
+
+  /* ── Futuristic card ── */
+  .card {
+    @apply bg-void-700/60 border border-slate-700/60 rounded-xl backdrop-blur-sm shadow-lg shadow-black/40;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  /* ── Primary cyan button ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-cyber-500/10 text-cyber-400 border border-cyber-500/40 font-medium rounded-lg px-5 py-2.5 cursor-pointer transition-all duration-200 whitespace-nowrap hover:bg-cyber-500/20 hover:border-cyber-400 hover:text-cyber-300 hover:shadow-lg hover:shadow-cyber-500/20 active:scale-95;
+  }
+
+  /* ── Ghost / secondary button ── */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-slate-400 border border-slate-700 font-medium rounded-lg px-5 py-2.5 cursor-pointer transition-all duration-200 whitespace-nowrap hover:border-slate-500 hover:text-slate-300 hover:bg-slate-800/40 active:scale-95;
+  }
+
+  /* ── Danger button ── */
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 text-red-400 border border-red-500/40 font-medium rounded-lg px-5 py-2.5 cursor-pointer transition-all duration-200 whitespace-nowrap hover:bg-red-500/10 hover:border-red-400 active:scale-95;
+  }
+
+  /* ── Grid tile button ── */
+  .tile-btn {
+    @apply card flex flex-col items-center justify-center gap-2 p-6 cursor-pointer font-mono text-sm font-medium tracking-wider text-slate-300 transition-all duration-200 hover:border-cyber-500/60 hover:text-cyber-400 hover:shadow-cyber-500/10 hover:shadow-xl hover:-translate-y-0.5 active:scale-95;
+  }
+
+  /* ── Page wrapper ── */
+  .page {
+    @apply min-h-screen flex flex-col;
+  }
+
+  /* ── Content area below navbar ── */
+  .content {
+    @apply flex-1 max-w-5xl mx-auto w-full px-4 py-8;
+  }
+
+  /* ── Section heading ── */
+  .section-title {
+    @apply text-2xl font-semibold text-slate-100 mb-1;
+  }
+
+  /* ── Subtle divider line ── */
+  .divider {
+    @apply border-t border-slate-800 my-6;
+  }
+
+  /* ── Glowing accent line ── */
+  .accent-line {
+    @apply h-px bg-gradient-to-r from-cyber-500/60 via-cyber-400/20 to-transparent mb-8;
+  }
+
+  /* ── Loading state ── */
+  .loading-text {
+    @apply min-h-screen flex items-center justify-center text-cyber-400 font-mono text-sm tracking-widest;
   }
 }
 
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Scanline overlay for ultra-futuristic feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
 }
