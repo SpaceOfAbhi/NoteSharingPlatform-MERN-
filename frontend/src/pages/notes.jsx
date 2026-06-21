@@ -88,7 +88,7 @@ function Notes() {
                                 currentUserId={currentUserId}
                                 onView={(note) =>
                                     window.open(
-                                        `${import.meta.env.VITE_API_URL}/api/notes/public/file/${note._id}`,
+                                        `${import.meta.env.baseURL}/api/notes/public/file/${note._id}`,
                                         "_blank"
                                     )
                                 }
