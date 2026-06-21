@@ -4,6 +4,9 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Departments from "./pages/department";
 import Upload from "./pages/upload";
+import Semesters from "./pages/semesters";
+import Subjects from "./pages/subjects";
+import Notes from "./pages/notes";
 
 function App() {
   return (
@@ -16,6 +19,18 @@ function App() {
         <Route
           path="/departments/:dept"
           element={<Semesters />}
+        />
+        <Route
+          path="/departments/:dept/:sem"
+          element={<Subjects />}
+        />
+        <Route
+          path="/departments/:dept/:sem/:subject"
+          element={<Notes />}
+        />
+        <Route
+          path="/upload"
+          element={<Upload />}
         />
       </Routes>
     </BrowserRouter>

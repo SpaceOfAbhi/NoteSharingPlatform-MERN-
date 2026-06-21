@@ -17,6 +17,11 @@ function Departments() {
   return (
     <div>
       <h1>Select Department</h1>
+      <button
+        onClick={() => navigate("/upload")}
+      >
+        Upload Notes
+      </button>
 
       {departments.map((dept) => (
         <button
